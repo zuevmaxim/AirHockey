@@ -1,5 +1,6 @@
 package zuev.airhockey.view
 
+import zuev.airhockey.ai.RandomPlayer
 import zuev.airhockey.logic.AirHockey
 import zuev.airhockey.logic.Player
 import zuev.airhockey.logic.TickGenerator
@@ -47,15 +48,18 @@ var player2: Player? = null
 
 fun main(args: Array<String>) {
     val hockey = AirHockey(TimeTickGenerator())
-    val window1 = MainWindow(hockey)
-    window1.isVisible = true
+    val window = MainWindow(hockey)
+    window.isVisible = true
 
-    if (args[0] == "server") {
-        player1 = LocalPlayer(hockey, window1, hockey.striker1)
+    if (args.isEmpty()) {
+        player1 = LocalPlayer(hockey, window, hockey.striker1)
+        player2 = RandomPlayer(hockey)
+    } else if (args[0] == "server") {
+        player1 = LocalPlayer(hockey, window, hockey.striker1)
         player2 = ServerPlayer(hockey, args[1].toInt())
-    } else {
+    } else if (args[0] == "client") {
         player1 = ClientPlayer(hockey, args[1], args[2].toInt())
-        player2 = LocalPlayer(hockey, window1, hockey.striker2)
+        player2 = LocalPlayer(hockey, window, hockey.striker2)
     }
 
 }
