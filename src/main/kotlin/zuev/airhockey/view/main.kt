@@ -1,9 +1,10 @@
 package zuev.airhockey.view
 
-import zuev.airhockey.ai.RandomPlayer
 import zuev.airhockey.logic.AirHockey
 import zuev.airhockey.logic.Player
 import zuev.airhockey.logic.TickGenerator
+import zuev.airhockey.network.ClientPlayer
+import zuev.airhockey.network.ServerPlayer
 import javax.swing.JFrame
 import javax.swing.JPanel
 import javax.swing.OverlayLayout
@@ -44,10 +45,17 @@ class TimeTickGenerator : TickGenerator() {
 var player1: Player? = null
 var player2: Player? = null
 
-fun main() {
+fun main(args: Array<String>) {
     val hockey = AirHockey(TimeTickGenerator())
-    val window = MainWindow(hockey)
-    window.isVisible = true
-    player1 = LocalPlayer(hockey, window)
-    player2 = RandomPlayer(hockey)
+    val window1 = MainWindow(hockey)
+    window1.isVisible = true
+
+    if (args[0] == "server") {
+        player1 = LocalPlayer(hockey, window1, hockey.striker1)
+        player2 = ServerPlayer(hockey, args[1].toInt())
+    } else {
+        player1 = ClientPlayer(hockey, args[1], args[2].toInt())
+        player2 = LocalPlayer(hockey, window1, hockey.striker2)
+    }
+
 }

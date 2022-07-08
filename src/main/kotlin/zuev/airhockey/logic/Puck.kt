@@ -69,6 +69,14 @@ class Puck(
         dx = 2 * strVAxis.x - pckVAxis.x + pckVAdd.x
         dy = 2 * strVAxis.y - pckVAxis.y + pckVAdd.y
     }
+
+    fun force(newX: Double, newY: Double, newDx: Double, newDy: Double) {
+        x = newX
+        y = newY
+        dx = newDx
+        dy = newDy
+        stateChanged()
+    }
 }
 
 private data class Point(val x: Double, val y: Double)
