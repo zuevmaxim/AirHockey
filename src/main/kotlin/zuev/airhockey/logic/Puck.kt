@@ -108,7 +108,7 @@ class Puck(
         return if ((newX - x).pow(2) + (newY- y).pow(2) <= (puck.size / 2).pow(2)) {
             val edge = Point(x, y)
             val pck = Point(puck.x, puck.y)
-            val pckV = Point(puck.dx, puck.dy)
+            val pckV = Point(newX, newY)
 
             val pckVProj = findNormal(pck, edge, pckV)
 
