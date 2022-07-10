@@ -9,35 +9,52 @@ private const val MU = 0.999
 
 class Puck(
     val board: Board,
-    val size: Double = 5.0,
+    val size: Double = PUCK_SIZE,
 ) : State() {
 
     @Volatile
-    var x: Double = board.width / 2
+    var x: Double = 0.0
         private set
 
     @Volatile
-    var y: Double = board.height / 2
+    var y: Double = 0.0
         private set
 
     @Volatile
-    var dx: Double = Random.nextDouble(0.2, 0.3) * if (Random.nextBoolean()) 1 else -1
+    var dx: Double = 0.0
         private set
 
     @Volatile
-    var dy: Double = Random.nextDouble(0.2, 0.3) * if (Random.nextBoolean()) 1 else -1
+    var dy: Double = 0.0
         private set
+
+    init {
+        reset()
+    }
+
+    fun reset() {
+        x = board.width / 2
+        y = board.height / 2
+        dx = Random.nextDouble(0.1, 0.2) * if (Random.nextBoolean()) 1 else -1
+        dy = Random.nextDouble(0.1, 0.2) * if (Random.nextBoolean()) 1 else -1
+        stateChanged()
+    }
 
     fun speed(): Double = sqrt(dx.pow(2) + dy.pow(2))
 
-    fun freeMove() {
+    tailrec fun freeMove() {
         val r = size / 2
         val newX = x + dx
         val newY = y + dy
-        if (newX < r || newX > board.width - r) {
+        val isFalling = board.isFallingToHole(newX, newY, r)
+        if (isFalling && board.checkEdgeBump(this)) {
+            freeMove()
+            return
+        }
+        if (!isFalling && (newX < r || newX > board.width - r)) {
             dx *= -1
             freeMove()
-        } else if (newY < r || newY > board.height - r) {
+        } else if (!isFalling && (newY < r || newY > board.height - r)) {
             dy *= -1
             freeMove()
         } else if (abs(x - newX) > DELTA || abs(y - newY) > DELTA) {
@@ -76,6 +93,34 @@ class Puck(
         dx = newDx
         dy = newDy
         stateChanged()
+    }
+
+    private fun Board.checkEdgeBump(puck: Puck): Boolean {
+        return checkEdgeBump(puck, width / 2 - holeSize / 2, 0.0)
+            || checkEdgeBump(puck, width / 2 + holeSize / 2, 0.0)
+            || checkEdgeBump(puck, width / 2 - holeSize / 2, height)
+            || checkEdgeBump(puck, width / 2 + holeSize / 2, height)
+    }
+
+    private fun checkEdgeBump(puck: Puck, x: Double, y: Double): Boolean {
+        val newX = puck.x + puck.dx
+        val newY = puck.y + puck.dy
+        return if ((newX - x).pow(2) + (newY- y).pow(2) <= (puck.size / 2).pow(2)) {
+            val edge = Point(x, y)
+            val pck = Point(puck.x, puck.y)
+            val pckV = Point(puck.dx, puck.dy)
+
+            val pckVProj = findNormal(pck, edge, pckV)
+
+            val pckVAdd = Point(pckV.x - pckVProj.x, pckV.y - pckVProj.y)
+            val pckVAxis = Point(pckVProj.x - pck.x, pckVProj.y - pck.y)
+
+            puck.dx = pckVAdd.x - pckVAxis.x
+            puck.dy = pckVAdd.y - pckVAxis.y
+            true
+        } else {
+            false
+        }
     }
 }
 

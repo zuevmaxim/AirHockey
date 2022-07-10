@@ -2,11 +2,11 @@ package zuev.airhockey.logic
 
 import kotlin.math.*
 
-private const val MAX_STRIKER_SPEED = 0.2
+private const val MAX_STRIKER_SPEED = 0.1
 
 class Striker(
     val board: Board,
-    val size: Double = 7.0,
+    val size: Double = STRIKER_SIZE,
     val isLower: Boolean,
 ) : State() {
     @Volatile
@@ -14,15 +14,15 @@ class Striker(
         private set
 
     @Volatile
-    var y: Double = 20.0 + if (isLower) board.height / 2 else 0.0
+    var y: Double = board.height / 4 + if (isLower) board.height / 2 else 0.0
         private set
 
     @Volatile
-    var dx: Double = 0.00
+    var dx: Double = 0.0
         private set
 
     @Volatile
-    var dy: Double = 0.00
+    var dy: Double = 0.0
         private set
 
     @Volatile
