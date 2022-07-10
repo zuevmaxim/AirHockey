@@ -37,6 +37,7 @@ class MainWindow(hockey: AirHockey) : JFrame() {
     val striker1 = StrikerView(hockey, hockey.striker1).also { pane.add(it) }
     val striker2 = StrikerView(hockey, hockey.striker2).also { pane.add(it) }
     val puck = PuckView(hockey).also { pane.add(it) }
+    val score = ScoreView(hockey.score).also { pane.add(it) }
 }
 
 class TimeTickGenerator : TickGenerator() {
