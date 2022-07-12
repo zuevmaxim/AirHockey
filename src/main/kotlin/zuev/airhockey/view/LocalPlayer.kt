@@ -17,11 +17,8 @@ class LocalPlayer(hockey: AirHockey, window: MainWindow, striker: Striker) : Pla
             override fun mouseMoved(e: MouseEvent) {
                 val newX = scale.viewToModel(e.x)
                 val newY = scale.viewToModel(e.y)
-                if (isPlayer1 && newY > hockey.board.height / 2) {
-                    hockey.striker1.setPosition(newX, newY)
-                }
-                if (!isPlayer1 && newY < hockey.board.height / 2) {
-                    hockey.striker2.setPosition(newX, newY)
+                if (isPlayer1 == newY > hockey.board.height / 2) {
+                    striker.setPosition(newX, newY)
                 }
             }
         })
