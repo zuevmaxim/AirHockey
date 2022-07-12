@@ -2,7 +2,7 @@ package zuev.airhockey.logic
 
 const val BOARD_WIDTH = 20.0
 const val BOARD_HEIGHT = 40.0
-const val HOLE_SIZE = 5.0
+const val HOLE_SIZE = 7.5
 const val PUCK_SIZE = 2.1
 const val STRIKER_SIZE = 2.5
 
