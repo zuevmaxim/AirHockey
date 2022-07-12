@@ -8,10 +8,12 @@ fun interface TickListener {
 abstract class TickGenerator {
     private val listeners = mutableListOf<TickListener>()
 
+    @Synchronized
     fun addListener(listener: TickListener) {
         listeners.add(listener)
     }
 
+    @Synchronized
     protected fun onTick() = listeners.forEach(TickListener::onTick)
 }
 

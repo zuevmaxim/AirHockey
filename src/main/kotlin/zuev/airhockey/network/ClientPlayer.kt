@@ -7,7 +7,7 @@ import java.io.DataOutputStream
 import java.net.Socket
 import java.util.concurrent.Executors
 
-class ClientPlayer(hockey: AirHockey, address: String, port: Int) : Player(hockey) {
+class ClientPlayer(hockey: AirHockey, address: String, port: Int) : Player {
     val threadPool = Executors.newSingleThreadExecutor()
     val socket = Socket(address, port)
 

@@ -2,7 +2,7 @@ package zuev.airhockey.logic
 
 const val DELTA = 1e-5
 
-abstract class Player(val hockey: AirHockey)
+interface Player
 
 class Board(
     val height: Double = BOARD_HEIGHT,

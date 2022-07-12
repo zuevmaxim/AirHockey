@@ -7,7 +7,7 @@ import java.awt.Color
 import java.awt.event.MouseEvent
 import java.awt.event.MouseMotionListener
 
-class LocalPlayer(hockey: AirHockey, window: MainWindow, striker: Striker) : Player(hockey) {
+class LocalPlayer(hockey: AirHockey, window: MainWindow, striker: Striker) : Player {
     init {
         val scale = ModelToViewScale.getInstance(hockey)
         val isPlayer1 = striker === hockey.striker1

@@ -9,7 +9,7 @@ import java.util.concurrent.Executors
 
 class PuckUpdate(val x: Double, val y: Double, val dx: Double, val dy: Double)
 
-class ServerPlayer(hockey: AirHockey, port: Int) : Player(hockey) {
+class ServerPlayer(hockey: AirHockey, port: Int) : Player {
     val threadPool = Executors.newSingleThreadExecutor()
     val server = ServerSocket(port)
 
