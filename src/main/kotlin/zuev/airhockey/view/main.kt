@@ -54,7 +54,10 @@ fun main(args: Array<String>) {
 
     if (args.isEmpty()) {
         player1 = LocalPlayer(hockey, window, hockey.striker1)
-        player2 = RandomPlayer(hockey)
+        player2 = RandomPlayer(hockey, hockey.striker2)
+    } else if (args[0] == "random") {
+        player1 = RandomPlayer(hockey, hockey.striker1)
+        player2 = RandomPlayer(hockey, hockey.striker2)
     } else if (args[0] == "server") {
         player1 = LocalPlayer(hockey, window, hockey.striker1)
         player2 = ServerPlayer(hockey, args[1].toInt())
