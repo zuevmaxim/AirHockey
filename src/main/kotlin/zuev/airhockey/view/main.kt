@@ -1,7 +1,9 @@
 package zuev.airhockey.view
 
+import zuev.airhockey.ai.AIPlayer
 import zuev.airhockey.ai.RandomPlayer
 import zuev.airhockey.logic.AirHockey
+import zuev.airhockey.logic.ManualTickGenerator
 import zuev.airhockey.logic.Player
 import zuev.airhockey.logic.TickGenerator
 import zuev.airhockey.network.ClientPlayer
@@ -64,6 +66,9 @@ fun main(args: Array<String>) {
     } else if (args[0] == "client") {
         player1 = ClientPlayer(hockey, args[1], args[2].toInt())
         player2 = LocalPlayer(hockey, window, hockey.striker2)
+    } else if (args[0] == "ai") {
+        player1 = AIPlayer(hockey, true)
+        player2 = AIPlayer(hockey, false, "random")
     }
 
 }
